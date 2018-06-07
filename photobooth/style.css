@@ -1,14 +1,28 @@
+/* Stole these styles from @aspencer116 */
+
+* {
+  box-sizing:border-box;
+
+  /* Color Variables */
+  --c-primary: #B83966;
+  --c-secondary--dark: #222233;
+  --c-secondary--light: #ccccd3;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: #A0CFCF;
-  padding: 3rem;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+  font-family: 'Work Sans', sans-serif;
+  background: #fff;
+  padding: 0 5% 4rem;
   transition: all 1s;
-  font-size: 16px;
+
+  background-image: linear-gradient(-33deg, #FFDEE9 0%, #B5FFFC 80%);
 }
 
 body.taking {
-  background: white;
-  transition: all .1s;
+  background: var(--c-primary);
+  transition: all 200ms;
+  z-index: 10;
 }
 
 body.taking > * {
@@ -20,22 +34,53 @@ body.taking > * {
 }
 
 .wrap {
-  width: 100%;
+  position: relative;
+  width:100%;
   position: relative;
   font-size: 0;
 }
 
+/* Mask for the canvas area to hide it before the webcam connection loads */
+.wrap::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background-color: var(--c-primary);
+  animation: mask 500ms 2s both;
+}
+
+@keyframes mask {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
 .wrap video {
   position: absolute;
-  width: 30%;
+  width: 20%;
   top: 10px;
   right: 10px;
+
+  border: solid 1px white;
 }
 
 
 canvas {
   width: 100%;
-  border: 10px solid black;
+  border: 10px solid var(--c-secondary--light);
+  cursor: pointer;
+
+  transition: all ease 250ms;
+
+  /* Background image is the iamge used for the greenscreen effect */
+  background: url("https://images.unsplash.com/photo-1510879064-54c4659b34a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89b1683f41a8ac2311771827e5bce3d8&auto=format&fit=crop&w=1569&q=80");
+}
+
+canvas:hover {
+  border-color: var(--c-secondary--dark);
 }
 
 .countdown {
@@ -43,6 +88,7 @@ canvas {
   text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
   position: absolute;
   width: 100%;
+  display:block;
   left: 0;
   top:0;
   text-align: center;
@@ -50,6 +96,8 @@ canvas {
   display: grid;
   align-content: center;
   color: white;
+
+  /* On clicks, pass through this layer to the layers behind */
   pointer-events: none;
 }
 
@@ -63,10 +111,15 @@ canvas {
   width: var(--size);
 }
 
+.strip a:hover img {
+  border-color: var(--c-secondary--dark);
+}
+
 .strip img {
-  border: 10px solid black;
+  border: 10px solid var(--c-secondary--light);
   width: 100%;
   margin-left: var(--size);
+  transition: all 250ms ease;
 }
 .strip a:first-child {
   width: var(--size);
@@ -96,11 +149,45 @@ canvas {
 .button-list button {
   font-size: 20px;
   border:0;
-  background: rgba(0,0,0,0.2);
-  color: white;
+  background: var(--c-secondary--light);
+  color: var(--c-secondary--dark);
   padding: 20px;
+  cursor: pointer;
+  transition: all ease 250ms;
+}
+
+.button-list button:hover {
+  color: #fff;
+  background: var(--c-secondary--dark);
+  transform: translateY(-4px);
+  box-shadow: 0 4px var(--c-secondary--dark);
 }
 
 .rgb {
   grid-column: 1 / -1;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 8rem;
+}
+
+.heading {
+  font-size: 2rem;
+  text-align: left;
+  display: block;
+  margin: 0;
+  color: var(--c-primary);
+}
+
+.subheading {
+  text-align: left;
+  -webkit-flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  display: block;
+  line-height: 1.5;
 }
